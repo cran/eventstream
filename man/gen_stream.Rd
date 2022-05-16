@@ -4,7 +4,14 @@
 \alias{gen_stream}
 \title{Generates a two dimensional data stream containing events of two classes.}
 \usage{
-gen_stream(n, folder = NULL, sd = 1, vis = FALSE)
+gen_stream(
+  n,
+  folder = NULL,
+  sd = 1,
+  vis = FALSE,
+  muAB = c(4, 3),
+  sdAB = c(2, 3)
+)
 }
 \arguments{
 \item{n}{The number of files to generate. Each file consists of a 350x250 data matrix.}
@@ -14,11 +21,16 @@ gen_stream(n, folder = NULL, sd = 1, vis = FALSE)
 \item{sd}{This specifies the seed.}
 
 \item{vis}{If \code{TRUE}, the images are plotted.}
+
+\item{muAB}{The starting event pixels of class A and B events are normally distributed with mean values specified by \code{muAB}. The default is \code{c(4,3)}.}
+
+\item{sdAB}{The starting standard deviations of class A and B events. Default set to \code{c(2,3)}.}
 }
 \value{
 A list with following components:
   \item{\code{data}}{The data stream returned as a data frame.}
   \item{\code{details}}{A data frame containing the details of the events: their positions, class labels, etc.. .  This is needed for identifying class labels of events during event extraction.}
+  \item{\code{eventlabs}}{A matrix with 1 at event locations and 0 elsewhere. }
 }
 \description{
 This function generates a two-dimensional data stream containing events of two classes. The data stream can be saved as separate files with images by specifying the argument \code{folder}.
@@ -27,8 +39,8 @@ This function generates a two-dimensional data stream containing events of two c
 There are events of two classes in the data matrices : A and B.  Events of class A have only one shape while events of class B have three different shapes, including class A's shape. This was motivated from a real world example. The details of events of each class are given below.
 \tabular{lrr}{
 Feature \tab class A   \tab class B \cr
-Starting cell/pixel values \tab \code{N(4,3)} \tab \code{N(2,3)} \cr
-Ending cell/pixel values  \tab \code{N(8,3)}  \tab \code{N(4,3)} \cr
+Starting cell/pixel values \tab \code{N(4,2)} \tab \code{N(3,3)} \cr
+Ending cell/pixel values  \tab \code{N(8,2)}  \tab \code{N(5,3)} \cr
 Maximum age of event - shape 1 \tab \code{U(20,30)} \tab \code{U(20,30)} \cr
 Maximum age of event - shape 2  \tab \code{NA}  \tab \code{U(100,150)} \cr
 Maximum age of event - shape 3  \tab \code{NA} \tab \code{U(100,150)} \cr

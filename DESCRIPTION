@@ -1,7 +1,7 @@
 Package: eventstream
 Type: Package
 Title: Streaming Events and their Early Classification
-Version: 0.1.0
+Version: 0.1.1
 Maintainer: Sevvandi Kandanaarachchi <sevvandik@gmail.com>
 Authors@R: person("Sevvandi", "Kandanaarachchi", email = "sevvandik@gmail.com",
   role = c("aut", "cre"), comment = c(ORCID = "0000-0002-0337-0395"))
@@ -9,18 +9,18 @@ Description: Implements event extraction and early classification of events in d
     It has the functionality to generate 2-dimensional data streams with events belonging to 
     2 classes. These events can be extracted and features computed. The event features extracted
     from incomplete-events can be classified using a partial-observations-classifier 
-    (Kandanaarachchi et al. 2018) <doi:10.13140/RG.2.2.10051.25129>. 
+    (Kandanaarachchi et al. 2018) <doi:10.1371/journal.pone.0236331>. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: abind, tensorA, glmnet, AtmRay, dbscan, MASS, changepoint
+Imports: abind, tensorA, glmnet, dbscan, MASS, changepoint, dplyr
 URL: https://sevvandi.github.io/eventstream/index.html
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.2
 Suggests: knitr, rmarkdown
 Depends: R (>= 3.4.0)
 NeedsCompilation: no
-Packaged: 2019-11-25 03:32:22 UTC; Sevvandi
+Packaged: 2022-05-16 07:18:24 UTC; sevva
 Author: Sevvandi Kandanaarachchi [aut, cre]
     (<https://orcid.org/0000-0002-0337-0395>)
 Repository: CRAN
-Date/Publication: 2019-12-06 09:20:02 UTC
+Date/Publication: 2022-05-16 08:10:02 UTC

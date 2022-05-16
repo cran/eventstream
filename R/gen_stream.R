@@ -6,13 +6,15 @@
 #' @param folder If this is set to a local folder, the data matrices are saved in \code{folder/data}, the images are saved in \code{folder/pics} and the event details are saved in \code{folder/summary}.  The event details are needed to obtain the class labels of events, when event extraction is done.
 #' @param sd This specifies the seed.
 #' @param vis If \code{TRUE}, the images are plotted.
+#' @param muAB The starting event pixels of class A and B events are normally distributed with mean values specified by \code{muAB}. The default is \code{c(4,3)}.
+#' @param sdAB The starting standard deviations of class A and B events. Default set to \code{c(2,3)}. 
 #'
 #' @details
 #' There are events of two classes in the data matrices : A and B.  Events of class A have only one shape while events of class B have three different shapes, including class A's shape. This was motivated from a real world example. The details of events of each class are given below.
 #' \tabular{lrr}{
 #' Feature \tab class A   \tab class B \cr
-#' Starting cell/pixel values \tab \code{N(4,3)} \tab \code{N(2,3)} \cr
-#' Ending cell/pixel values  \tab \code{N(8,3)}  \tab \code{N(4,3)} \cr
+#' Starting cell/pixel values \tab \code{N(4,2)} \tab \code{N(3,3)} \cr
+#' Ending cell/pixel values  \tab \code{N(8,2)}  \tab \code{N(5,3)} \cr
 #' Maximum age of event - shape 1 \tab \code{U(20,30)} \tab \code{U(20,30)} \cr
 #' Maximum age of event - shape 2  \tab \code{NA}  \tab \code{U(100,150)} \cr
 #' Maximum age of event - shape 3  \tab \code{NA} \tab \code{U(100,150)} \cr
@@ -25,6 +27,7 @@
 #'A list with following components:
 #'   \item{\code{data}}{The data stream returned as a data frame.}
 #'   \item{\code{details}}{A data frame containing the details of the events: their positions, class labels, etc.. .  This is needed for identifying class labels of events during event extraction.}
+#'   \item{\code{eventlabs}}{A matrix with 1 at event locations and 0 elsewhere. }
 #'
 #'
 #' @examples
@@ -36,7 +39,7 @@
 #'@export
 
 
-gen_stream <- function(n,  folder=NULL, sd=1, vis=FALSE){
+gen_stream <- function(n,  folder=NULL, sd=1, vis=FALSE, muAB= c(4,3), sdAB=c(2,3)){
   set.seed(sd)
 
   if(!missing(folder)){
@@ -83,7 +86,8 @@ gen_stream <- function(n,  folder=NULL, sd=1, vis=FALSE){
   ll <- 1 # this index is for the data frame which has all.details
   for(kk in 1:n){
     details <- set_parameters()
-    x <- create_picture(details, vis)
+    xobj <- create_picture(details, vis, muAB, sdAB)
+    x <- xobj$x
 
     pp <- 100 +kk
     filename <- paste("Gen_",pp,".jpg", sep="")
@@ -109,8 +113,10 @@ gen_stream <- function(n,  folder=NULL, sd=1, vis=FALSE){
 
     if(kk==1){
       xx <- x
+      eventlabs <- xobj$eventlabs
     }else{
       xx <- rbind.data.frame(xx, x)
+      eventlabs <- rbind.data.frame(eventlabs, xobj$eventlabs)
     }
 
     for(i in 1:length(details$class)){
@@ -126,6 +132,7 @@ gen_stream <- function(n,  folder=NULL, sd=1, vis=FALSE){
 
   out$data <- xx
   out$details <- All.details
+  out$eventlabs <- eventlabs
   return(out)
 }
 
